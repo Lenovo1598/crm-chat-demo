@@ -47,7 +47,7 @@ export default function ChatPanel({ messages, onSendMessage, loading }: ChatPane
       <div className="p-4 md:p-8 border-b border-slate-100">
         <p className="text-xs text-slate-500 italic mb-2">✦ Demo en vivo</p>
         <h1 className="text-2xl md:text-4xl text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Georgia, serif' }}>
-          Conversá con <em>Flip</em>
+          Conversá con <em>BriqIA</em>
         </h1>
         <p className="text-sm text-slate-600 max-w-lg leading-relaxed hidden sm:block">
           Probá el copiloto en tiempo real. Hacele preguntas, pedile que simule un cliente

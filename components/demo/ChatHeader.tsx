@@ -11,7 +11,7 @@ export default function ChatHeader({ onReset, onBack, onToggleCRM }: ChatHeaderP
   return (
     <header className="bg-white border-b border-slate-200 px-4 md:px-8 py-4 flex justify-between items-center">
       <div className="flex items-center gap-3">
-        <span className="text-lg font-bold text-slate-900">Flip</span>
+        <span className="text-lg font-bold text-slate-900">BriqIA</span>
         <span className="text-xs font-medium text-slate-400 tracking-widest">DEMO</span>
       </div>
       <div className="flex items-center gap-4 md:gap-6">

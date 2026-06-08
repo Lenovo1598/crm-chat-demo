@@ -3,8 +3,8 @@ import './globals.css';
 import { AuthProvider } from '@/hooks/useAuth';
 
 export const metadata: Metadata = {
-  title: 'Flip Demo Chat',
-  description: 'Demo de chat AI de Flip en un proyecto independiente',
+  title: 'BriqIA Demo Chat',
+  description: 'Demo de chat AI de BriqIA en un proyecto independiente',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
