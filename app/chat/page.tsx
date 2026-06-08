@@ -116,16 +116,22 @@ export default function DemoChatPage() {
     setHistorial([]);
   }
 
+  const darkBg = {
+    background: `radial-gradient(ellipse at 50% 100%, rgba(34,197,94,0.15) 0%, transparent 60%), #0a0d0b`,
+    backgroundImage: `linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)`,
+    backgroundSize: `28px 28px`,
+  } as React.CSSProperties;
+
   if (!sessionReady) {
     return (
-      <div className="h-screen flex items-center justify-center bg-white">
-        <p className="text-sm text-gray-500">Cargando demo...</p>
+      <div className="h-screen flex items-center justify-center" style={darkBg}>
+        <p className="text-sm text-white/50">Cargando demo...</p>
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex flex-col bg-white overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden" style={darkBg}>
       <ChatHeader onReset={handleReset} onBack={() => router.push('/')} onToggleCRM={() => setShowCRM(v => !v)} />
 
       <div className="flex-1 flex overflow-hidden relative">

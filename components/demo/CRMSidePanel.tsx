@@ -33,46 +33,47 @@ export default function CRMSidePanel({ leadData, seguimientos, notas, historial,
 
   return (
     <>
-      {/* Overlay oscuro en móvil */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
           onClick={onClose}
         />
       )}
 
       <div className={`
-        md:w-[420px] md:shrink-0 md:border-l md:border-slate-200 md:flex md:flex-col
-        bg-white flex flex-col
-        fixed inset-y-0 right-0 z-50 w-[90vw] max-w-sm shadow-xl
+        md:w-[420px] md:shrink-0 md:border-l md:border-white/10 md:flex md:flex-col
+        flex flex-col
+        fixed inset-y-0 right-0 z-50 w-[90vw] max-w-sm shadow-2xl
         transition-transform duration-300 ease-in-out
         md:relative md:translate-x-0 md:shadow-none md:z-auto
         ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-      `}>
-        <div className="px-6 py-5 border-b border-slate-100">
+      `}
+        style={{ background: 'rgba(10,13,11,0.95)', backdropFilter: 'blur(12px)' }}
+      >
+        <div className="px-6 py-5 border-b border-white/10">
           <div className="flex justify-between items-start mb-1">
-            <p className="text-xs text-slate-500 italic">✦ CRM</p>
+            <p className="text-xs text-green-400/60 italic">✦ CRM</p>
             <div className="flex items-center gap-2">
-              <button className="text-slate-400 hover:text-slate-600">
+              <button className="text-white/30 hover:text-white/60 transition-colors">
                 <MoreHorizontal size={16} />
               </button>
               <button
                 onClick={onClose}
-                className="md:hidden text-slate-400 hover:text-slate-600"
+                className="md:hidden text-white/30 hover:text-white/60 transition-colors"
                 aria-label="Cerrar CRM"
               >
                 <X size={18} />
               </button>
             </div>
           </div>
-          <h2 className="text-base font-semibold text-slate-900">Lead activo</h2>
+          <h2 className="text-base font-semibold text-white">Lead activo</h2>
         </div>
 
-        <div className="px-6 py-4 border-b border-slate-100">
+        <div className="px-6 py-4 border-b border-white/10">
           <LeadActivoCard leadData={leadData as Parameters<typeof LeadActivoCard>[0]['leadData']} />
         </div>
 
-        <div className="border-b border-slate-100 px-6">
+        <div className="border-b border-white/10 px-6">
           <div className="flex gap-6">
             {tabs.map(({ id, label }) => (
               <button
@@ -80,8 +81,8 @@ export default function CRMSidePanel({ leadData, seguimientos, notas, historial,
                 onClick={() => setTab(id)}
                 className={`py-3 text-sm font-medium border-b-2 transition-colors ${
                   tab === id
-                    ? 'border-slate-900 text-slate-900'
-                    : 'border-transparent text-slate-500 hover:text-slate-700'
+                    ? 'border-green-400 text-green-400'
+                    : 'border-transparent text-white/40 hover:text-white/70'
                 }`}
               >
                 {label}
