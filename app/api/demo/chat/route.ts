@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { addMessage, addSeguimientos, getSession, updateLeadData, buildMockResponse } from '@/lib/demoStore';
+import { addMessage, getSession } from '@/lib/demoStore';
+
+const N8N_WEBHOOK = process.env.N8N_CHAT_WEBHOOK!;
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -23,20 +25,27 @@ export async function POST(request: Request) {
 
   addMessage(sessionToken, 'user', message);
 
-  const chatResult = buildMockResponse(message);
-  addMessage(sessionToken, 'assistant', chatResult.response);
+  const n8nRes = await fetch(N8N_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      sessionId: session.token,
+      chatInput: message,
+    }),
+  });
 
-  if (Object.keys(chatResult.lead_data).length > 0) {
-    updateLeadData(sessionToken, chatResult.lead_data);
+  if (!n8nRes.ok) {
+    return NextResponse.json({ error: 'Error al contactar el agente' }, { status: 502 });
   }
 
-  if (chatResult.seguimientos.length > 0) {
-    addSeguimientos(sessionToken, chatResult.seguimientos);
-  }
+  const n8nData = await n8nRes.json();
+  const agentResponse = String(n8nData?.output ?? n8nData?.response ?? '');
+
+  addMessage(sessionToken, 'assistant', agentResponse);
 
   return NextResponse.json({
-    response: chatResult.response,
+    response: agentResponse,
     lead_data: getSession(sessionToken)?.lead_data ?? {},
-    seguimientos: chatResult.seguimientos,
+    seguimientos: [],
   });
 }
