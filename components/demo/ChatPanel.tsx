@@ -1,7 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
-import SuggestionButtons from './SuggestionButtons';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -56,7 +55,6 @@ export default function ChatPanel({ messages, onSendMessage, loading }: ChatPane
         </p>
       </div>
 
-      {messages.length === 0 && <SuggestionButtons onSelect={onSendMessage} />}
 
       <div className="flex-1 overflow-y-auto p-6 relative">
         {messages.length === 0 && <DecorativeBackground />}
