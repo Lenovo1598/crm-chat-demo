@@ -25,6 +25,7 @@ export default function DemoChatPage() {
   const [historial, setHistorial] = useState<HistorialItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [sessionReady, setSessionReady] = useState(false);
+  const [showCRM, setShowCRM] = useState(false);
 
   const initSession = useCallback(async () => {
     try {
@@ -125,15 +126,17 @@ export default function DemoChatPage() {
 
   return (
     <div className="h-screen flex flex-col bg-white overflow-hidden">
-      <ChatHeader onReset={handleReset} onBack={() => router.push('/')} />
+      <ChatHeader onReset={handleReset} onBack={() => router.push('/')} onToggleCRM={() => setShowCRM(v => !v)} />
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         <ChatPanel messages={messages} onSendMessage={handleSendMessage} loading={loading} />
         <CRMSidePanel
           leadData={leadData}
           seguimientos={seguimientos}
           notas={notas}
           historial={historial}
+          isOpen={showCRM}
+          onClose={() => setShowCRM(false)}
         />
       </div>
     </div>

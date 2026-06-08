@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, X } from 'lucide-react';
 import LeadActivoCard from './LeadActivoCard';
 import SeguimientosTab from './SeguimientosTab';
 import NotasTab from './NotasTab';
@@ -18,9 +18,11 @@ interface CRMSidePanelProps {
   seguimientos: Seguimiento[];
   notas: string[];
   historial: HistorialItem[];
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function CRMSidePanel({ leadData, seguimientos, notas, historial }: CRMSidePanelProps) {
+export default function CRMSidePanel({ leadData, seguimientos, notas, historial, isOpen = false, onClose }: CRMSidePanelProps) {
   const [tab, setTab] = useState<Tab>('seguimientos');
 
   const tabs: { id: Tab; label: string }[] = [
@@ -30,44 +32,70 @@ export default function CRMSidePanel({ leadData, seguimientos, notas, historial 
   ];
 
   return (
-    <div className="w-[420px] shrink-0 border-l border-slate-200 bg-white flex flex-col">
-      <div className="px-6 py-5 border-b border-slate-100">
-        <div className="flex justify-between items-start mb-1">
-          <p className="text-xs text-slate-500 italic">✦ CRM</p>
-          <button className="text-slate-400 hover:text-slate-600">
-            <MoreHorizontal size={16} />
-          </button>
+    <>
+      {/* Overlay oscuro en móvil */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      <div className={`
+        md:w-[420px] md:shrink-0 md:border-l md:border-slate-200 md:flex md:flex-col
+        bg-white flex flex-col
+        fixed inset-y-0 right-0 z-50 w-[90vw] max-w-sm shadow-xl
+        transition-transform duration-300 ease-in-out
+        md:relative md:translate-x-0 md:shadow-none md:z-auto
+        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+      `}>
+        <div className="px-6 py-5 border-b border-slate-100">
+          <div className="flex justify-between items-start mb-1">
+            <p className="text-xs text-slate-500 italic">✦ CRM</p>
+            <div className="flex items-center gap-2">
+              <button className="text-slate-400 hover:text-slate-600">
+                <MoreHorizontal size={16} />
+              </button>
+              <button
+                onClick={onClose}
+                className="md:hidden text-slate-400 hover:text-slate-600"
+                aria-label="Cerrar CRM"
+              >
+                <X size={18} />
+              </button>
+            </div>
+          </div>
+          <h2 className="text-base font-semibold text-slate-900">Lead activo</h2>
         </div>
-        <h2 className="text-base font-semibold text-slate-900">Lead activo</h2>
-      </div>
 
-      <div className="px-6 py-4 border-b border-slate-100">
-        <LeadActivoCard leadData={leadData as Parameters<typeof LeadActivoCard>[0]['leadData']} />
-      </div>
+        <div className="px-6 py-4 border-b border-slate-100">
+          <LeadActivoCard leadData={leadData as Parameters<typeof LeadActivoCard>[0]['leadData']} />
+        </div>
 
-      <div className="border-b border-slate-100 px-6">
-        <div className="flex gap-6">
-          {tabs.map(({ id, label }) => (
-            <button
-              key={id}
-              onClick={() => setTab(id)}
-              className={`py-3 text-sm font-medium border-b-2 transition-colors ${
-                tab === id
-                  ? 'border-slate-900 text-slate-900'
-                  : 'border-transparent text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+        <div className="border-b border-slate-100 px-6">
+          <div className="flex gap-6">
+            {tabs.map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => setTab(id)}
+                className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+                  tab === id
+                    ? 'border-slate-900 text-slate-900'
+                    : 'border-transparent text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          {tab === 'seguimientos' && <SeguimientosTab seguimientos={seguimientos} />}
+          {tab === 'notas' && <NotasTab notas={notas} />}
+          {tab === 'historial' && <HistorialTab historial={historial} />}
         </div>
       </div>
-
-      <div className="flex-1 overflow-y-auto px-6 py-6">
-        {tab === 'seguimientos' && <SeguimientosTab seguimientos={seguimientos} />}
-        {tab === 'notas' && <NotasTab notas={notas} />}
-        {tab === 'historial' && <HistorialTab historial={historial} />}
-      </div>
-    </div>
+    </>
   );
 }

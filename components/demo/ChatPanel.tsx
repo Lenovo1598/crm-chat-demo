@@ -45,12 +45,12 @@ export default function ChatPanel({ messages, onSendMessage, loading }: ChatPane
 
   return (
     <div className="flex-1 flex flex-col min-w-0">
-      <div className="p-8 border-b border-slate-100">
+      <div className="p-4 md:p-8 border-b border-slate-100">
         <p className="text-xs text-slate-500 italic mb-2">✦ Demo en vivo</p>
-        <h1 className="text-4xl text-slate-900 mb-3" style={{ fontFamily: 'Georgia, serif' }}>
+        <h1 className="text-2xl md:text-4xl text-slate-900 mb-2 md:mb-3" style={{ fontFamily: 'Georgia, serif' }}>
           Conversá con <em>Flip</em>
         </h1>
-        <p className="text-sm text-slate-600 max-w-lg leading-relaxed">
+        <p className="text-sm text-slate-600 max-w-lg leading-relaxed hidden sm:block">
           Probá el copiloto en tiempo real. Hacele preguntas, pedile que simule un cliente
           o que califique un lead. La conversación se mantiene mientras no reinicies.
         </p>
