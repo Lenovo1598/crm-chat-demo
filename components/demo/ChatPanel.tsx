@@ -2,6 +2,31 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
 
+const URL_REGEX = /(https?:\/\/[^\s]+)/g;
+
+function MessageContent({ content, isUser }: { content: string; isUser: boolean }) {
+  const parts = content.split(URL_REGEX);
+  return (
+    <>
+      {parts.map((part, i) =>
+        URL_REGEX.test(part) ? (
+          <a
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`underline break-all ${isUser ? 'text-white/90 hover:text-white' : 'text-emerald-700 hover:text-emerald-900'}`}
+          >
+            {part}
+          </a>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -71,7 +96,7 @@ export default function ChatPanel({ messages, onSendMessage, loading }: ChatPane
                   : 'bg-slate-100 text-slate-900'
               }`}
             >
-              {msg.content}
+              <MessageContent content={msg.content} isUser={msg.role === 'user'} />
             </div>
           </div>
         ))}
